@@ -6,7 +6,13 @@ import Button from '@material-ui/core/Button';
 
 class RoomList extends Component {
     render() {
-        var roomlist = this.props.roomlist.map(function (room){
+        var currentRooms = this.props.roomlist.filter(function (room){
+            if(room.isDeleted === 0) return true;
+            else return false;
+        })
+        // console.log(currentRooms);
+        
+        var roomlist = currentRooms.map(function (room){
             return (
                 <Card>
                     <CardHeader
@@ -21,8 +27,7 @@ class RoomList extends Component {
                         </Button>
                         */}
                         <Button onClick={function () {
-                            const url = '/api/roomlist/'+room.id;
-                            
+                            const url = '/api/roomlist/'+room.roomId;
                             fetch(url, {
                                 method: 'DELETE'
                             });

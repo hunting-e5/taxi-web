@@ -51,9 +51,14 @@ class App extends Component {
   }
 
   render() {
-    // console.log(this.state.roomlist);
-    // console.log(this.state.user);
     var user = this.state.user;
+    var maxId = 0;
+    
+    if(this.state.roomlist) {
+      var maxRoom = this.state.roomlist[this.state.roomlist.length - 1];
+      maxId = maxRoom.roomId;
+    }
+
     var userRooms = [];
     userRooms.push(user.Room1Id);
     userRooms.push(user.Room2Id);
@@ -64,7 +69,7 @@ class App extends Component {
       <div>
         <Header />
         <Button onClick={function () { //로그인 버튼으로 대체할 생각
-          this.props.sendUserData('login', user.userId, user.userName, user.userGender, user.userPhone, user.userPW, userRooms)
+          this.props.sendDataToStore('login', user.userId, user.userName, user.userGender, user.userPhone, user.userPW, userRooms, maxId)
         }.bind(this)}>
           유저 정보 전달
         </Button>
@@ -93,8 +98,8 @@ export default connect(
   },
   function (dispatch) {
     return {
-      sendUserData(type, userId, userName, userGender, userPhone, userPW, userRooms) {
-        dispatch({ type, userId, userName, userGender, userPhone, userPW, userRooms })
+      sendDataToStore(type, userId, userName, userGender, userPhone, userPW, userRooms, maxId) {
+        dispatch({ type, userId, userName, userGender, userPhone, userPW, userRooms, maxId })
       }
     }
   }

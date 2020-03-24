@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { RaisedButton, TextField } from 'material-ui';
-import { NavLink, Link } from 'react-router-dom'
-import { HardwareDesktopWindows } from 'material-ui/svg-icons';
+import { NavLink, } from 'react-router-dom'
 
 const axios = require('axios').default;
 
@@ -31,6 +30,7 @@ class CreateRoom extends Component {
                 }} /><br />
                 <NavLink exact to={'/'}>
                     <RaisedButton label="방 개설" onClick={function () {
+                        var emptyRoom = -1;
                         if (dep !== undefined && dest !== undefined && maxNum !== undefined && !isNaN(maxNum)) {
                             if (desc === undefined) {
                                 desc = '추가정보 없음';
@@ -40,11 +40,24 @@ class CreateRoom extends Component {
                                 dest: dest,
                                 maxNum: maxNum,
                                 desc: desc,
-                                writer: '3000'
+                                writer: this.props.userId,
                             });
-                        } else {
-                            window.alert('다시 입력하세요!');
-                        }
+
+                            for (var i = 0; i < this.props.userRooms.length; i++) {
+                                if (this.props.userRooms[i] === null) {
+                                    emptyRoom = i + 1;
+                                    break;
+                                }   
+                            }
+                            if (emptyRoom === -1) window.alert('들어갈 수 있는 방이 없습니다!')
+                            else {
+                                axios.post('/api/userlist', {
+                                    emptyRoom : emptyRoom,
+                                    roomId: this.props.maxId + 1,
+                                    userId: this.props.userId,
+                                });
+                            }
+                        } else window.alert('다시 입력하세요!');
                     }.bind(this)} />
                 </NavLink>
             </MuiThemeProvider>
@@ -53,7 +66,13 @@ class CreateRoom extends Component {
 }
 
 export default connect(
-    null,
+    function (state) {
+        return {
+            userId: state.userId,
+            maxId: state.maxId,
+            userRooms: state.userRooms,
+        }
+    },
     function (dispatch) {
         return {
             onClick: function (mode, writer, dep, dest, desc, maxNum) {

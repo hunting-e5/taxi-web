@@ -9,7 +9,9 @@ var rawInitState = {
     notices: [
         { id: 1, title: '중요공지', desc: '카택전 v0.1 런칭' }
     ],
+    userRooms: [],
     myRooms: [],
+    maxId: 0,
 };
 
 function reducer(state = rawInitState, action) {
@@ -20,7 +22,7 @@ function reducer(state = rawInitState, action) {
             if (room === null) return false;
             else return true;
         })
-        newState = {...state, userId: action.userId, userName: action.userName, userGender: action.userGender, userPhone: action.userPhone, userPW: action.userPW, myRooms: userInRoom}
+        newState = {...state, userId: action.userId, userName: action.userName, userGender: action.userGender, userPhone: action.userPhone, userPW: action.userPW, myRooms: userInRoom, maxId: action.maxId, userRooms: action.userRooms}
         return newState;
     }
 

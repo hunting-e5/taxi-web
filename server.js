@@ -32,7 +32,8 @@ app.get('/api/userlist', (req, res) => {
 
 app.get('/api/roomlist', (req, res) => {
   connection.query(
-    'SELECT * FROM ROOMLIST WHERE isDeleted = 0',
+    // 'SELECT * FROM ROOMLIST WHERE isDeleted = 0',
+    'SELECT * FROM ROOMLIST',
     (err, rows, fields) => {
       res.send(rows);
     }
@@ -47,6 +48,23 @@ app.post('/api/roomlist', (req, res) => {
   let desc = req.body.desc;
   let writer = req.body.writer;
   let params = [dep, dest, maxNum, desc, writer];
+  connection.query(sql, params, (err, rows, fields) => {
+    res.send(rows);
+  });
+});
+
+app.post('/api/userlist', (req, res) => {
+  let sql;
+  let emptyRoom = req.body.emptyRoom;
+  if (emptyRoom === 1) sql = 'UPDATE USERS SET Room1Id = ? WHERE userId = ?';
+  if (emptyRoom === 2) sql = 'UPDATE USERS SET Room2Id = ? WHERE userId = ?';
+  if (emptyRoom === 3) sql = 'UPDATE USERS SET Room3Id = ? WHERE userId = ?';
+  if (emptyRoom === 4) sql = 'UPDATE USERS SET Room4Id = ? WHERE userId = ?';
+  if (emptyRoom === 5) sql = 'UPDATE USERS SET Room5Id = ? WHERE userId = ?';
+  let roomId = req.body.roomId;
+  let userId = req.body.userId;
+  let params = [roomId, userId];
+  
   connection.query(sql, params, (err, rows, fields) => {
     res.send(rows);
   });

@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 class MyRoomList extends Component {
     render() {
         var myRooms = this.props.roomlist.filter(function (room) {
-            if (this.props.userRooms.indexOf(room.id) > -1) return true;
+            if (this.props.userRooms.indexOf(room.roomId) > -1 && room.isDeleted !== 0) return true;
             else return false;
         }.bind(this));
         
