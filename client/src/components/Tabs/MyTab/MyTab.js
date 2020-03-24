@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
 import MyRoomList from './MyRoomList';
 
-const MyTab = () => {
-    return (
-        <div>
-            <MyRoomList></MyRoomList>
-        </div>
-    );
-};
+class MyTab extends Component{
+    render(){
+        return (
+            <div>
+                <MyRoomList roomlist = {this.props.roomlist} />
+            </div>
+        );
+    }
+}
 
 export default MyTab;
