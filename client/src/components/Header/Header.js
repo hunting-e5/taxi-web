@@ -56,7 +56,7 @@ function Header() {
                             aria-controls="menu-appbar"
                             onClick={handleMenu}
                             color="inherit"
-                            component={NavLink} to='/'
+                            component={NavLink} to='/profile'
                             edge='end'
                         >
                             <AccountCircle />

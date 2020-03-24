@@ -31,11 +31,10 @@ class CreateRoom extends Component {
                 }} /><br />
                 <NavLink exact to={'/'}>
                     <RaisedButton label="방 개설" onClick={function () {
-                        if (dep !== undefined && dest !== undefined && maxNum !== undefined) {
+                        if (dep !== undefined && dest !== undefined && maxNum !== undefined && !isNaN(maxNum)) {
                             if (desc === undefined) {
                                 desc = '추가정보 없음';
                             }
-                            console.log("maxNum:", maxNum);
                             axios.post('/api/roomlist', {
                                 dep: dep,
                                 dest: dest,

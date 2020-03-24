@@ -6,7 +6,6 @@ const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -22,14 +21,23 @@ const connection = mysql.createConnection({
 });
 connection.connect();
 
+app.get('/api/userlist', (req, res) => {
+  connection.query(
+    'SELECT * FROM USERS',
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  )
+});
+
 app.get('/api/roomlist', (req, res) => {
-    connection.query(
-      'SELECT * FROM ROOMLIST WHERE isDeleted = 0',
-      (err, rows, fields) => {
-        res.send(rows);
-      }
-    )
-  });
+  connection.query(
+    'SELECT * FROM ROOMLIST WHERE isDeleted = 0',
+    (err, rows, fields) => {
+      res.send(rows);
+    }
+  )
+});
 
 app.post('/api/roomlist', (req, res) => {
   let sql = 'INSERT INTO ROOMLIST VALUES (null, ?, ?, ?, ?, ?, NULL, NULL, NULL, NULL, 0)';

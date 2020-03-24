@@ -6,7 +6,9 @@ class RoomTab extends React.Component {
     render(){
         return (
             <div>
-                <RoomList id={this.props.id} dep = {this.props.dep} dest={this.props.dest} maxNum={this.props.maxNum} desc={this.props.desc} />
+                <RoomList roomlist = {this.props.roomlist}
+                // id={this.props.id} dep = {this.props.dep} dest={this.props.dest} maxNum={this.props.maxNum} desc={this.props.desc} 
+                />
                 <CreateButton></CreateButton>
             </div>
         );
